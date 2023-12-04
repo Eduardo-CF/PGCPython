@@ -2,6 +2,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
+# Cria a extensão
 db = SQLAlchemy()
 
 class GradesTable(db.Model):
