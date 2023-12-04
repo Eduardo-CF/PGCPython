@@ -2,6 +2,7 @@
 # Se mantém entre a view e model
 
 from flask import Blueprint
+from .model import db
 
 # Nesse caso fico todas rotas referentes ao Site. Caso queira rotas para outro serviço, criar novo arquivo e nomear de forma parecida.
 # url_prefix -> permite acessar endpoints a partir daquele prefix
@@ -32,4 +33,4 @@ def gradesRouteUpdate(id):
 
 @api.route('/grades', methods=['GET'])
 def gradesAllRouteShow():
-    return 'Lista todas as notas'
+    return 'Lista todas as notas !'
