@@ -9,8 +9,8 @@ class GradesTable(db.Model):
     __tablename__ = 'Grades'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), nullable=False)
-    firstGrade = db.Column(db.Double)
-    secondGrade = db.Column(db.Double)
+    firstGrade = db.Column(db.Double, nullable=True)
+    secondGrade = db.Column(db.Double, nullable=True)
 
     # Campo utilizado como identificador do registro
     def __repr__(self):
