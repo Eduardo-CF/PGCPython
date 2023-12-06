@@ -21,6 +21,7 @@ def index():
 @api.route('/grades/<id>', methods=['GET'])
 def gradesRouteShow(id):
     response = GradesTable.query.get(id)
+    print(response)
     return jsonify(response)
     # return 'Retornar JSON da nota'
 
@@ -44,7 +45,7 @@ def gradesRouteCreate():
     id = str(uuid.uuid4())
     # Construção do registro a ser adicionado ("Parsing")
     new_account = GradesTable(
-                          id          = id,
+                        #   id          = id,
                           name        = requestJson['name'],
                           firstGrade  = requestJson['firstGrade'],
                           secondGrade = requestJson['secondGrade']
@@ -57,7 +58,7 @@ def gradesRouteCreate():
     db.session.commit()
 
     # Devolve uma resposta para o View informar sobre operação
-    response = GradesTable.query.get(id).toDict()
+    response = GradesTable.query.get(id)
     return jsonify(response)
     # return jsonify(requestJson)
 
