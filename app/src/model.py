@@ -15,7 +15,7 @@ class Grades(db.Model):
     createdAt      = db.Column(db.DateTime(timezone=True), default=datetime.now)
     updatedAt      = db.Column(db.DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
-    # Campo utilizado como identificador do registro
+    # Campo utilizado como identificador do registro para poder apresentar objeto como string.
     def __repr__(self):
         return f'<Grades {self.name}>'
 
