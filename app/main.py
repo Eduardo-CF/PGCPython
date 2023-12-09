@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 
 from src.controller import api
-from src.model import db, GradesTable
+from src.model import db, Grades
 
 def create_app():
     app = Flask(__name__)
