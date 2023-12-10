@@ -6,7 +6,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # URI para o SQLite
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.db')
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "database.db")
 
 # Habilita o modo de Debug
 DEBUG = True
