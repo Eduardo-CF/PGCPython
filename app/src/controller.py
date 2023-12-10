@@ -22,7 +22,7 @@ def gradesRouteShow(grade_id):
     response = Grades.query.get(grade_id).to_dict()
     print(response)
     return jsonify(response)
-    # return 'Retornar JSON da nota'
+    # return 'Retorna JSON da nota'
 
 # INSERT -- OK
 @api.route('/grades', methods=['POST'])
@@ -30,24 +30,17 @@ def gradesRouteCreate():
     # Recebe request Json
     request_json = request.get_json()
 
-    # Tentativa de utilizar uma função para validar no momento da construção do registro, porém não é possivel.
-    # def optional(param):
-    #     if not param:
-    #         return None
-    #     else: 
-    #         return param
-
     # Dá para pegar o content type para tratar casos de envio de requests não Json
     # content_type = request.headers.get('Content-Type')
 
-    # Construção do registro a ser adicionado ("Parsing")
+    # Construção do registro a ser adicionado.
     new_grades = Grades(
                         #   id         -> Inserido automáticamente pelo banco de dados.
                         #   created_at -> Inserido automáticamente pelo banco de dados.
                         #   updated_at -> Inserido automáticamente pelo banco de dados.
-                          name        = request_json['name'],
-                          first_grade  = request_json['first_grade'],
-                          second_grade = request_json['second_grade']
+                          name         = request_json['name'],
+                          first_grade  = request_json.get("first_grade", 0.0),
+                          second_grade = request_json.get("second_grade", 0.0)
                           )
     
     # Envia a request de inserção e manda operação ser executada
@@ -57,7 +50,7 @@ def gradesRouteCreate():
     # Devolve uma resposta para o View informar sobre operação
     response = Grades.query.get(new_grades.id).to_dict()
     return jsonify(response)
-    # return 'Adicionar uma nova Nota'
+    # return 'Adiciona uma nova Nota'
 
 # DELETE -- OK
 @api.route('/grades/<grade_id>', methods=['DELETE'])
@@ -96,7 +89,7 @@ def gradesRouteUpdate(grade_id):
     response = Grades.query.get(grade_id).to_dict()
     return jsonify(response)
 
-    # return 'Atualiza uma nova Nota'
+    # return 'Atualiza uma nova nota.'
 
 # GETALL -- OK
 @api.route('/grades', methods=['GET'])
@@ -109,4 +102,4 @@ def gradesAllRouteShow():
     for grades in all_grades: response.append(grades.to_dict())
     # Devolve JSON dos registros.
     return jsonify(response)
-    # return 'Lista todas as notas !'
+    # return 'Lista todas as notas.'
