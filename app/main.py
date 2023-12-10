@@ -13,11 +13,11 @@ def create_app():
     ### Banco de Dados
 
     # Resgata o URI do arquivo config.py
-    app.config.from_object('config')
+    app.config.from_object("config")
 
     # O mesmo que acima sem o arquivo config.py:
     # #basedir = os.path.abspath(os.path.dirname(__file__))
-    # #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+    # #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "database.db")
     
     db.init_app(app)
 
@@ -33,7 +33,7 @@ def create_app():
 app = create_app()
 migrate = Migrate(app, db)
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000, debug=True)
 
     
