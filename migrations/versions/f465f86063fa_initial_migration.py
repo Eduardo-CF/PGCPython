@@ -21,8 +21,8 @@ def upgrade():
     op.create_table('Grades',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
-    sa.Column('firstGrade', sa.Double(), nullable=True),
-    sa.Column('secondGrade', sa.Double(), nullable=True),
+    sa.Column('first_grade', sa.Double(), nullable=True),
+    sa.Column('second_grade', sa.Double(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

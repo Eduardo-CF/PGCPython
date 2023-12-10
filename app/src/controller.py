@@ -17,9 +17,9 @@ def index():
     return 'Welcome to the home page!'
 
 # GET -- OK
-@api.route('/grades/<id>', methods=['GET'])
-def gradesRouteShow(id):
-    response = Grades.query.get(id).toDict()
+@api.route('/grades/<grade_id>', methods=['GET'])
+def gradesRouteShow(grade_id):
+    response = Grades.query.get(grade_id).to_dict()
     print(response)
     return jsonify(response)
     # return 'Retornar JSON da nota'
@@ -28,7 +28,7 @@ def gradesRouteShow(id):
 @api.route('/grades', methods=['POST'])
 def gradesRouteCreate():
     # Recebe request Json
-    requestJson = request.get_json()
+    request_json = request.get_json()
 
     # Tentativa de utilizar uma função para validar no momento da construção do registro, porém não é possivel.
     # def optional(param):
@@ -41,41 +41,72 @@ def gradesRouteCreate():
     # content_type = request.headers.get('Content-Type')
 
     # Construção do registro a ser adicionado ("Parsing")
-    new_account = Grades(
-                        # id -> Inserido automáticamente pelo banco de dados.
-                          name        = requestJson['name'],
-                          firstGrade  = requestJson['firstGrade'],
-                          secondGrade = requestJson['secondGrade']
+    new_grades = Grades(
+                        #   id         -> Inserido automáticamente pelo banco de dados.
+                        #   created_at -> Inserido automáticamente pelo banco de dados.
+                        #   updated_at -> Inserido automáticamente pelo banco de dados.
+                          name        = request_json['name'],
+                          first_grade  = request_json['first_grade'],
+                          second_grade = request_json['second_grade']
                           )
     
     # Envia a request de inserção e manda operação ser executada
-    db.session.add(new_account)
+    db.session.add(new_grades)
     db.session.commit()
 
     # Devolve uma resposta para o View informar sobre operação
-    response = Grades.query.get(new_account.id).toDict()
+    response = Grades.query.get(new_grades.id).to_dict()
     return jsonify(response)
     # return 'Adicionar uma nova Nota'
 
-# DELETE
-@api.route('/grades/<id>', methods=['DELETE'])
-def gradesRouteDelete(id):
-    return 'Remove uma nova Nota'
+# DELETE -- OK
+@api.route('/grades/<grade_id>', methods=['DELETE'])
+def gradesRouteDelete(grade_id):
+    # Salva registro para apresentar o que foi deletado.
+    # Obs. O Grades.query gera a query a ser executada, se não colocar to_dict() e fazê-lo depois do commit
+    # ele irá buscar no banco e não encontrará.
+    gradeRemoved = Grades.query.get(grade_id).to_dict()
 
-# UPDATE
-@api.route('/grades/<id>', methods=['PUT'])
-def gradesRouteUpdate(id):
-    return 'Atualiza uma nova Nota'
+    # Faz a query de remoção de registro com id informado e efetiva a remoção. Executa a query em seguida.
+    Grades.query.filter_by(id=grade_id).delete()
+    db.session.commit()
+
+    # Retorna o registro removido como resposta.
+    return ('Registro Removido : {}\n').format(gradeRemoved)
+    # return 'Remove uma nova Nota'
+
+# UPDATE -- Problema do Parsing.
+# Há a possibilidade de buscar o registro pelo nome e atualizar, e não pelo ID gerado automaticamente.
+@api.route('/grades/<grade_id>', methods=['PUT'])
+def gradesRouteUpdate(grade_id):
+    # Recebe request Json
+    request_json = request.get_json()
+    # Resgata registro a atualizar
+    old_grades = Grades.query.get(grade_id)
+
+    # Atualiza cada campo.
+    old_grades.name        = request_json['name']
+    old_grades.first_grade  = request_json['first_grade']
+    old_grades.second_grade = request_json['second_grade']
+
+    # Efetua as mudançar, executando a query.
+    db.session.commit()
+
+    # Retorna o registro atualizado 
+    response = Grades.query.get(grade_id).to_dict()
+    return jsonify(response)
+
+    # return 'Atualiza uma nova Nota'
 
 # GETALL -- OK
 @api.route('/grades', methods=['GET'])
 def gradesAllRouteShow():
     # Query para pegar todos registros.
-    allGrades = Grades.query.all()
+    all_grades = Grades.query.all()
     # lista que comporá a resposta devolvida.
     response = []
     # Anexa o resultado da Query. Necessário serializar o resultado e converter para o formato do JSON.
-    for grades in allGrades: response.append(grades.toDict())
+    for grades in all_grades: response.append(grades.to_dict())
     # Devolve JSON dos registros.
     return jsonify(response)
     # return 'Lista todas as notas !'
