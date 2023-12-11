@@ -41,8 +41,8 @@ def gradesRouteCreate():
                         #   created_at -> Inserido automáticamente pelo banco de dados.
                         #   updated_at -> Inserido automáticamente pelo banco de dados.
                           name         = request_json.get("name"),
-                          first_grade  = request_json.get("first_grade", 0.0),
-                          second_grade = request_json.get("second_grade", 0.0)
+                          first_grade  = request_json.get("first_grade", None),
+                          second_grade = request_json.get("second_grade", None)
                           )
     
     # Envia a request de inserção e manda operação ser executada
