@@ -19,6 +19,10 @@ def index():
 # GET -- OK
 @api.route("/grades/<grade_id>", methods=["GET"])
 def gradesRouteShow(grade_id):
+    # Verifica se id é numérico
+    if not grade_id.isnumeric():
+        raise Exception("Error, id not numeric.")
+
     # Faz a query no banco e tranforma resultado em dicionário Python.
     response = Grades.query.get(grade_id).to_dict()
 
@@ -57,6 +61,10 @@ def gradesRouteCreate():
 # DELETE -- OK
 @api.route("/grades/<grade_id>", methods=["DELETE"])
 def gradesRouteDelete(grade_id):
+        # Verifica se id é numérico
+    if not grade_id.isnumeric():
+        raise Exception("Error, id not numeric.")
+    
     # Salva registro para apresentar o que foi deletado.
     # Obs. O Grades.query gera a query a ser executada, se não colocar to_dict() e fazê-lo depois do commit
     # ele irá buscar no banco e não encontrará.
@@ -74,6 +82,10 @@ def gradesRouteDelete(grade_id):
 # Há a possibilidade de buscar o registro pelo nome e atualizar, e não pelo ID gerado automaticamente.
 @api.route("/grades/<grade_id>", methods=["PUT"])
 def gradesRouteUpdate(grade_id):
+    # Verifica se id é numérico
+    if not grade_id.isnumeric():
+        raise Exception("Error, id not numeric.")
+    
     # Recebe request Json
     request_json = request.get_json()
     # Resgata registro a atualizar
