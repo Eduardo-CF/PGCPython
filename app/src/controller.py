@@ -34,7 +34,8 @@ def gradesRouteShow(grade_id):
 @api.route("/grades", methods=["POST"])
 def gradesRouteCreate():
     # Recebe request Json
-    request_json = request.get_json()
+    # get_data trás o Bitestring de forma análoga ao Haskell
+    request_json = request.get_json(force=True)
 
     # Dá para pegar o content type para tratar casos de envio de requests não Json
     # content_type = request.headers.get("Content-Type")
@@ -50,7 +51,11 @@ def gradesRouteCreate():
                           )
     
     # Envia a request de inserção e manda operação ser executada
-    db.session.add(new_grades)
+    print(db.session.add(new_grades))
+
+    query = db.insert(new_grades)
+    print(db.session.execute(query))
+
     db.session.commit()
 
     # Devolve uma resposta para o View informar sobre operação
